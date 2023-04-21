@@ -1,11 +1,14 @@
 package org.yearup.libraryworkshop;
 
+import java.util.Scanner;
+
 public class Book {
     private int id;
     private String isbn;
     private String title;
     private static boolean isCheckedOut;
     private String checkedOutTo;
+    private Scanner scanner;
 
     public Book(int id, String isbn, String title, boolean isCheckedOut, String checkedOutTo) {
         this.id = id;
@@ -27,7 +30,7 @@ public class Book {
         this.title = title;
     }
 
-    public static void setCheckedOut(boolean checkedOut) {
+    public void setCheckedOut(boolean checkedOut) {
         isCheckedOut = checkedOut;
     }
 
@@ -63,6 +66,7 @@ public class Book {
         return null;
     }
     public String checkIn() {
+
         return null;
     }
 }
