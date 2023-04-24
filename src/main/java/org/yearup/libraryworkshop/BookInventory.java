@@ -2,7 +2,7 @@ package org.yearup.libraryworkshop;
 
 public class BookInventory {
 
-    public static Book[] BooksToCheckOut = {
+    public static Book[] allBooks = {
             new Book(1, "w455645507", "Throne of Glass", false, ""),
             new Book(2, "w455645508", "Crown of Midnight", false, ""),
             new Book(3, "w455645509", "Heir of Fire", false, ""),

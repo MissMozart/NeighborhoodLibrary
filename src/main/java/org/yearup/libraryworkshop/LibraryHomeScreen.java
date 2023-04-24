@@ -1,62 +1,45 @@
 package org.yearup.libraryworkshop;
+
 import java.util.Scanner;
+
 public class LibraryHomeScreen {
 
-
+    // Welcome user and show home screen with available and checked out books
     public static void main(String[] args) {
-        System.out.println("Welcome to the Neighborhood Library! \nHere are our available books: ");
-        // Show ISBN and title
-        Book[] booksToCheckOut = BookInventory.BooksToCheckOut;
+        Scanner checkInOrOut = new Scanner(System.in);
+        boolean done = false;
+        while (done == false) {
+            System.out.println("Welcome to the Neighborhood Library! \nHere are our available books: ");
+            // Show ISBN and title
+            Book[] books = BookInventory.allBooks;
 
-        for (Book b : booksToCheckOut) {
-            if (b.isCheckedOut()) continue;
-            System.out.println("Library ID: " + b.getId() + ", " + b.getTitle() + ", ISBN: " + b.getIsbn());
-        }
-        System.out.println("Here are the books that are currently checked out: ");
-        System.out.println();
-        for (Book b : booksToCheckOut) {
-            if (b.isCheckedOut()) System.out.print(b.getTitle() + " , ISBN: " + b.getIsbn());
-        }
-
-        Scanner scanner = new Scanner(System.in);
-        boolean checkedOut = false;
-        do {
-            System.out.printf("Which book would you like to check out? (Type in title or ISBN) \nOr you can exit typing EXIT. \n");
-
-            // Read users response
-            String consoleInput = scanner.nextLine();
-
-            String selectedTitle = consoleInput;
-            String selectedIsbn = consoleInput;
-            Book selectedBook = null;
-
-            for (Book b : booksToCheckOut) {
-                if (selectedTitle.equals(b.getTitle())) {
-                    selectedBook = b;
-                    System.out.println("What is your name?");
-                    String name = scanner.nextLine();
-                    Book.setCheckedOutTo(name);
-                    checkedOut = true;
-                    Book.setCheckedOut(true);
-                    System.out.println("Ok, " + name + ", " + selectedTitle + " is now checked out.");
-                    break;
-                } else if (selectedIsbn.equals(b.getIsbn())) {
-                    selectedBook = b;
-                    System.out.println("What is your name?");
-                    String name = scanner.nextLine();
-                    Book.setCheckedOutTo(name);
-                    checkedOut = true;
-                    Book.setCheckedOut(true);
-                    System.out.println("Ok, " + name + ", " + selectedTitle + " is now checked out.");
-                    break;
-                } else if (selectedTitle.equals("EXIT")) {
-                    return;
-                }
+            for (Book b : books) {
+                if (b.isCheckedOut(true)) continue;
+                System.out.println("Library ID: " + b.getId() + ", " + b.getTitle() + ", ISBN: " + b.getIsbn());
+            }
+            System.out.println("Here are the books that are currently checked out: ");
+            for (Book b : books) {
+                if (b.isCheckedOut(true)) System.out.print(b.getTitle() + " , ISBN: " + b.getIsbn() + ", checked out by "  + b.getCheckedOutTo());
             }
 
+            // ask user if they want to check out, check in a book or exit
+            System.out.printf("\nWould you like to 'check in' or 'check out' a book? \nyou can also exit by typing 'X'. \n");
+            String userInput = checkInOrOut.nextLine();
 
-        } while (!checkedOut);
+            // If the user wants to check in a book
+            if (userInput.equals("check in")) {
+                Book.checkIn();
+            }
 
-
+            // If they want to check out a book
+            else if (userInput.equals("check out")) {
+                Book.checkOut();
+            } else if (userInput.equals("X")) {
+                System.out.println("Goodbye!");
+                done = true;
+            }
+        }
     }
 }
+
+

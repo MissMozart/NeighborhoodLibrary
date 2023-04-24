@@ -6,7 +6,7 @@ public class Book {
     private int id;
     private String isbn;
     private String title;
-    private static boolean isCheckedOut;
+    private boolean isCheckedOut;
     private String checkedOutTo;
     private Scanner scanner;
 
@@ -50,7 +50,7 @@ public class Book {
         return title;
     }
 
-    public boolean isCheckedOut() {
+    public boolean isCheckedOut(boolean b) {
         return isCheckedOut;
     }
 
@@ -62,11 +62,71 @@ public class Book {
 
     }
 
-    public String checkOut(String name) {
-        return null;
-    }
-    public String checkIn() {
+    public static void checkOut() {
+        Scanner scanner = new Scanner(System.in);
+        boolean checkedOut = false;
+        String consoleInput;
+        do {
+            System.out.printf("Which book would you like to check out? (Type in title or ISBN) \nOr you can exit typing 'X'. \n");
 
-        return null;
+            // Read users response
+            consoleInput = scanner.nextLine();
+
+            Book[] booksToCheckOut = BookInventory.allBooks;
+
+            String selectedTitle = consoleInput;
+            String selectedIsbn = consoleInput;
+            Book selectedBook = null;
+            //match input to book title
+            for (Book b : booksToCheckOut) {
+                if (selectedTitle.equals(b.getTitle())) {
+                    selectedBook = b;
+                    System.out.println("What is your name?");
+                    String name = scanner.nextLine();
+                    selectedBook.setCheckedOutTo(name);
+                    selectedBook.setCheckedOut(true);
+                    System.out.println("Ok " + name + ", " + selectedTitle + " is now checked out.");
+                    break;
+                    // match input to ISBN
+                } else if (selectedIsbn.equals(b.getIsbn())) {
+                    selectedBook = b;
+                    System.out.println("What is your name?");
+                    String name = scanner.nextLine();
+                    selectedBook.setCheckedOutTo(name);
+                    selectedBook.setCheckedOut(true);
+                    System.out.println("Ok, " + name + ", " + selectedTitle + " is now checked out.");
+                    break;
+                }
+
+            }
+
+        } while (!consoleInput.equals("X"));
+
+    }
+
+    public static void checkIn() {
+        Scanner scanner = new Scanner(System.in);
+        Book[] books = BookInventory.allBooks;
+
+        System.out.printf("Which book would you like to check in? (Type in title)\nOr you can exit typing 'X'.\n");
+
+        String bookInput = scanner.nextLine();
+        if (bookInput.equals("X")) {
+            System.out.println("Goodbye!");
+            return;
+        }
+
+        // match inputted Title to .getTitle()
+        for (Book bb : books) {
+            if (bookInput.equals(bb.getTitle())) {
+                bb.setCheckedOut(false);
+                bb.setCheckedOutTo("");
+                System.out.println(bb.getTitle() + " was successfully checked in!");
+                break;
+            }
+
+        }
     }
 }
+
+
